@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @GetMapping({"", "/"})
-    public String showAllUsers(Model model, @ModelAttribute("flashMessage") String flashAttribute, Principal principal) {
+    public String showUser(Model model, @ModelAttribute("flashMessage") String flashAttribute, Principal principal) {
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("user", user);
         return "user";
