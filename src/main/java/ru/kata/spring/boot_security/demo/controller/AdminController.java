@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -21,11 +22,15 @@ public class AdminController {
     }
 
 
-    @GetMapping({"/users","","/"})
-    public String showAllUsers(Model model, @ModelAttribute("flashMessage") String flashAttribute) {
+    @GetMapping({"/", ""})
+    public String showAllUsers(Model model, @ModelAttribute("flashMessage") String flashAttribute, Principal principal) {
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
-        return "userList";
+        User user = userService.findByUsername(principal.getName());
+        model.addAttribute("authUser", user);
+
+        model.addAttribute("newUser", new User());
+        return "admin";
     }
 
     @GetMapping("/add")
@@ -34,9 +39,9 @@ public class AdminController {
     }
 
     @PutMapping()
-    public String saveUser(@ModelAttribute("user") User user) {
+    public String saveUser(@ModelAttribute("newUser") User user) {
         userService.save(user);
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 
     @GetMapping("/{id}/edit")
@@ -52,12 +57,14 @@ public class AdminController {
     @PatchMapping()
     public String updateUser(@ModelAttribute("user") User user) {
         userService.update(user);
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 
-    @DeleteMapping("/{id}/delete")
-    public String delete(@PathVariable("id") Long id) {
-        userService.deleteUser(id);
-        return "redirect:/admin/users";
+    @DeleteMapping()
+    public String delete(@ModelAttribute("user") User user,Principal principal) {
+         if (!(principal.getName().equals(user.getUsername()))){
+            userService.deleteUser(user.getId());
+         }
+        return "redirect:/admin";
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Data
@@ -40,6 +41,17 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
+
+    public String getRole() {
+        String rolesString = roles.stream()
+                .map(Role::getName)
+                .collect(Collectors.joining(", "));
+        return rolesString;
+
+    }
+
+    public User() {
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
