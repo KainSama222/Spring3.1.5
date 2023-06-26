@@ -33,10 +33,6 @@ public class AdminController {
         return "admin";
     }
 
-    @GetMapping("/add")
-    public String addUserForm(@ModelAttribute("user") User user) {
-        return "addUser";
-    }
 
     @PutMapping()
     public String saveUser(@ModelAttribute("newUser") User user) {
@@ -44,27 +40,17 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/{id}/edit")
-    public String editUserForm(@PathVariable(value = "id") Long id, Model model) {
-        User user = userService.getUserById(id);
-        if (null == user) {
-            return "redirect:/admin/users";
-        }
-        model.addAttribute("user", user);
-        return "editUser";
-    }
-
-    @PatchMapping()
-    public String updateUser(@ModelAttribute("user") User user) {
-        userService.update(user);
-        return "redirect:/admin";
-    }
-
-    @DeleteMapping()
-    public String delete(@ModelAttribute("user") User user,Principal principal) {
-         if (!(principal.getName().equals(user.getUsername()))){
-            userService.deleteUser(user.getId());
-         }
-        return "redirect:/admin";
-    }
+//    @PatchMapping()
+//    public String updateUser(@ModelAttribute("user") User user) {
+//        userService.update(user);
+//        return "redirect:/admin";
+//    }
+//
+//    @DeleteMapping()
+//    public String delete(@ModelAttribute("user") User user,Principal principal) {
+//         if (!(principal.getName().equals(user.getUsername()))){
+//            userService.deleteUser(user.getId());
+//         }
+//        return "redirect:/admin";
+//    }
 }
