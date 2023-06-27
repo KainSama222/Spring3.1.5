@@ -135,7 +135,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group d-flex flex-column align-items-center w-50 p-2">
-                                    <button type="submit" class="btn btn-success" onclick="addUser()">
+                                    <button type="submit" class="btn btn-success"
+                                            onclick="event.preventDefault(); addUser()">
                                         Добавить
                                     </button>
                                 </div>
@@ -196,7 +197,7 @@
                                    class="form-control w-50"/>
                         </div>
                         <div class="form-group d-flex flex-column align-items-center">
-                            <label  for="editRoles">Edit role: </label>
+                            <label for="editRoles">Edit role: </label>
                             <select size="2"
                                     multiple
                                     name="roles"
@@ -215,7 +216,7 @@
                             <button type="submit"
                                     class="btn btn-primary"
                                     id="editBtn"
-                                    onclick="editUser()">
+                                    onclick="event.preventDefault(); editUser()">
                                 Сохранить изменения
                             </button>
                         </div>
@@ -303,7 +304,7 @@
                                 Отмена
                             </button>
                             <button type="submit" class="btn btn-primary"
-                                    onclick="deleteUser()">
+                                    onclick=" event.preventDefault(); deleteUser()">
                                 Удалить
                             </button>
                         </div>
